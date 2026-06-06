@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عصر التجربة الرقمية — مشروع التخرج</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy-deep: #0a0f2e;
+    --navy-mid: #111a45;
+    --navy-card: #1a2556;
+    --navy-border: #2a3a7a;
+    --teal: #00e5c8;
+    --teal-dim: #00b5a0;
+    --blue-accent: #4a7fff;
+    --white: #ffffff;
+    --text-dim: #a0aecf;
+    --text-muted: #6a7aaa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--navy-deep);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--navy-deep); }
+  ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(10,15,46,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--navy-border);
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+    transition: all 0.3s;
+  }
+  .nav-logo {
+    font-size: 1.1rem; font-weight: 800;
+    color: var(--teal);
+    letter-spacing: -0.5px;
+  }
+  .nav-links {
+    display: flex; gap: 6px; list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem; font-weight: 500;
+    padding: 6px 14px; border-radius: 8px;
+    transition: all 0.25s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--white);
+    background: var(--navy-card);
+  }
+  .nav-links a.active { color: var(--teal); }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 100px 40px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,229,200,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(74,127,255,0.07) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74,127,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,127,255,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,229,200,0.1); border: 1px solid rgba(0,229,200,0.25);
+    color: var(--teal); font-size: 0.82rem; font-weight: 600;
+    padding: 6px 18px; border-radius: 50px;
+    margin-bottom: 28px;
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero-badge span { width: 6px; height: 6px; background: var(--teal); border-radius: 50%; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+  .hero-title {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 900; line-height: 1.15;
+    margin-bottom: 20px;
+    animation: fadeDown 0.9s 0.1s ease both;
+  }
+  .hero-title em { font-style: normal; color: var(--teal); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--text-dim); font-weight: 400;
+    max-width: 580px;
+    line-height: 1.8;
+    margin-bottom: 12px;
+    animation: fadeDown 1s 0.2s ease both;
+  }
+  .hero-school {
+    font-size: 0.88rem; color: var(--text-muted);
+    margin-bottom: 50px;
+    animation: fadeDown 1s 0.25s ease both;
+  }
+  .hero-stats {
+    display: flex; gap: 40px; justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeDown 1s 0.3s ease both;
+  }
+  .stat-item { text-align: center; }
+  .stat-num { font-size: 2.2rem; font-weight: 900; color: var(--teal); }
+  .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+  .hero-scroll {
+    position: absolute; bottom: 30px;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    color: var(--text-muted); font-size: 0.75rem;
+    animation: fadeIn 2s 1s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--teal), transparent);
+    animation: scrollAnim 2s infinite;
+  }
+  @keyframes scrollAnim { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+  @keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+  /* ===== SECTIONS ===== */
+  section { padding: 90px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--teal); font-size: 0.8rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .section-label::before { content:''; width:24px; height:2px; background:var(--teal); border-radius:2px; }
+  h2.section-title {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900; margin-bottom: 14px; line-height: 1.2;
+  }
+  .section-desc {
+    color: var(--text-dim); font-size: 1rem; line-height: 1.8;
+    max-width: 700px; margin-bottom: 50px;
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px; padding: 28px;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .card::before {
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(135deg, rgba(0,229,200,0.04), transparent);
+    opacity:0; transition:opacity 0.3s;
+  }
+  .card:hover { border-color: rgba(0,229,200,0.3); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+  .card:hover::before { opacity:1; }
+
+  /* ===== GRID ===== */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+
+  /* ===== TEAM SECTION ===== */
+  #team { background: var(--navy-mid); width:100%; max-width:100%; }
+  #team > div { max-width:1200px; margin:0 auto; padding:90px 40px; }
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+  .team-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 14px; padding: 22px 18px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .team-card:hover { border-color: var(--teal); transform: translateY(-3px); }
+  .team-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy-border), var(--navy-deep));
+    border: 2px solid var(--navy-border);
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    transition: border-color 0.3s;
+  }
+  .team-card:hover .team-avatar { border-color: var(--teal); }
+  .team-name { font-size: 0.88rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+
+  /* ===== STEPS ===== */
+  .steps-container { display: flex; flex-direction: column; gap: 0; }
+  .step-item {
+    display: flex; gap: 28px; align-items: flex-start;
+    position: relative; padding-bottom: 40px;
+    cursor: pointer;
+  }
+  .step-item:last-child { padding-bottom: 0; }
+  .step-item::before {
+    content: ''; position: absolute;
+    right: 23px; top: 52px; bottom: 0;
+    width: 2px; background: var(--navy-border);
+  }
+  .step-item:last-child::before { display: none; }
+  .step-num {
+    min-width: 48px; height: 48px; border-radius: 50%;
+    background: var(--navy-card); border: 2px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 900; color: var(--text-muted);
+    transition: all 0.3s; position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+  .step-item.active .step-num, .step-item:hover .step-num {
+    background: rgba(0,229,200,0.1); border-color: var(--teal); color: var(--teal);
+  }
+  .step-content { flex: 1; }
+  .step-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 10px; transition: color 0.3s; }
+  .step-item:hover .step-title { color: var(--teal); }
+  .step-desc { color: var(--text-dim); font-size: 0.92rem; line-height: 1.8; }
+  .step-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .tag {
+    font-size: 0.75rem; font-weight: 600;
+    padding: 4px 12px; border-radius: 50px;
+    background: rgba(74,127,255,0.1); border: 1px solid rgba(74,127,255,0.25);
+    color: var(--blue-accent);
+  }
+
+  /* ===== COMPARISON ===== */
+  .compare-table { width:100%; border-collapse: separate; border-spacing: 0 8px; }
+  .compare-table th {
+    font-size: 0.9rem; font-weight: 800; padding: 16px 24px;
+    color: var(--teal); text-align: right;
+  }
+  .compare-table td {
+    padding: 16px 24px; font-size: 0.88rem; color: var(--text-dim);
+    background: var(--navy-card); line-height: 1.6;
+  }
+  .compare-table tr td:first-child { border-radius: 0 12px 12px 0; font-weight: 700; color: var(--white); }
+  .compare-table tr td:last-child { border-radius: 12px 0 0 12px; }
+  .compare-table tr:hover td { background: var(--navy-border); }
+
+  /* ===== COLORS TABLE ===== */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .color-card {
+    background: var(--navy-card); border: 1px solid var(--navy-border);
+    border-radius: 14px; overflow: hidden; transition: all 0.3s;
+  }
+  .color-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+  .color-swatch { height: 80px; }
+  .color-info { padding: 16px 18px; }
+  .color-name { font-weight: 800; font-size: 1rem; margin-bottom: 4px; }
+  .color-meaning { color: var(--text-dim); font-size: 0.82rem; margin-bottom: 8px; }
+  .color-example { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* ===== PRINCIPLES ===== */
+  .principle-card { display: flex; gap: 20px; align-items: flex-start; }
+  .principle-icon {
+    min-width: 48px; height: 48px; border-radius: 12px;
+    background: rgba(0,229,200,0.1); border: 1px solid rgba(0,229,200,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; flex-shrink: 0;
+  }
+  .principle-title { font-weight: 800; font-size: 1rem; margin-bottom: 6px; }
+  .principle-desc { color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+
+  /* ===== AI FUTURE ===== */
+  .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ai-card {
+    background: var(--navy-card); border: 1px solid var(--navy-border);
+    border-radius: 16px; padding: 28px; position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .ai-card::after {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(0,229,200,0.08), transparent);
+  }
+  .ai-card:hover { border-color: rgba(0,229,200,0.3); transform: translateY(-4px); }
+  .ai-num { font-size: 2rem; font-weight: 900; color: rgba(0,229,200,0.15); margin-bottom: 12px; }
+  .ai-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; color: var(--teal); }
+  .ai-desc { color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+
+  /* ===== CONCLUSION ===== */
+  #conclusion { background: var(--navy-mid); width:100%; max-width:100%; }
+  #conclusion > div { max-width:1200px; margin:0 auto; padding:90px 40px; }
+  .recs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .rec-card {
+    background: var(--navy-deep); border: 1px solid var(--navy-border);
+    border-radius: 14px; padding: 24px;
+    display: flex; gap: 16px; align-items: flex-start;
+    transition: all 0.3s;
+  }
+  .rec-card:hover { border-color: rgba(0,229,200,0.3); }
+  .rec-arrow { color: var(--teal); font-size: 1.2rem; margin-top: 2px; }
+  .rec-title { font-weight: 800; margin-bottom: 6px; }
+  .rec-text { color: var(--text-dim); font-size: 0.88rem; line-height: 1.7; }
+
+  /* ===== SUPERVISORS ===== */
+  .supervisor-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+  .supervisor-badge {
+    background: var(--navy-card); border: 1px solid var(--navy-border);
+    border-radius: 12px; padding: 14px 22px;
+    font-size: 0.88rem; font-weight: 600;
+    transition: all 0.3s;
+  }
+  .supervisor-badge:hover { border-color: var(--teal); color: var(--teal); }
+  .supervisor-role { color: var(--text-muted); font-size: 0.75rem; display: block; margin-bottom: 2px; }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    position: fixed; top: 0; right: 0; height: 3px; z-index: 9999;
+    background: linear-gradient(90deg, var(--teal), var(--blue-accent));
+    transition: width 0.1s;
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider { border: none; border-top: 1px solid var(--navy-border); margin: 0; }
+
+  /* ===== TABS ===== */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+  .tab-btn {
+    padding: 10px 22px; border-radius: 10px; border: 1px solid var(--navy-border);
+    background: transparent; color: var(--text-dim);
+    font-family: 'Tajawal', sans-serif; font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; transition: all 0.25s;
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: rgba(0,229,200,0.1); border-color: rgba(0,229,200,0.3);
+    color: var(--teal);
+  }
+  .tab-panel { display: none; animation: fadeUp 0.4s ease; }
+  .tab-panel.active { display: block; }
+
+  /* ===== QUOTE ===== */
+  .big-quote {
+    font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 700;
+    color: var(--white); line-height: 1.5;
+    border-right: 4px solid var(--teal); padding-right: 24px;
+    margin: 40px 0;
+  }
+
+  /* ===== TOOLTIP ===== */
+  [data-tooltip] { position: relative; cursor: help; }
+  [data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute; bottom: calc(100% + 10px); right: 50%;
+    transform: translateX(50%);
+    background: var(--navy-border); color: var(--white);
+    font-size: 0.78rem; padding: 6px 12px; border-radius: 8px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transition: opacity 0.2s;
+    border: 1px solid rgba(0,229,200,0.2);
+  }
+  [data-tooltip]:hover::after { opacity: 1; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center; padding: 40px;
+    color: var(--text-muted); font-size: 0.82rem;
+    border-top: 1px solid var(--navy-border);
+  }
+  footer span { color: var(--teal); }
+
+  /* ===== RESPONSIVE ===== */
+  @media(max-width:768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .grid-2,.grid-3,.grid-4,.ai-grid,.recs-grid { grid-template-columns: 1fr; }
+    #team > div, #conclusion > div { padding: 60px 20px; }
+  }
+
+  /* ===== ANIMATE ON SCROLL ===== */
+  .aos { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+  .aos.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">UI/UX ◈ مشروع التخرج</div>
+  <ul class="nav-links">
+    <li><a href="#hero">الرئيسية</a></li>
+    <li><a href="#intro">المقدمة</a></li>
+    <li><a href="#chapter1">الفصل الأول</a></li>
+    <li><a href="#chapter2">الفصل الثاني</a></li>
+    <li><a href="#chapter3">الفصل الثالث</a></li>
+    <li><a href="#chapter4">الفصل الرابع</a></li>
+    <li><a href="#chapter5">الفصل الخامس</a></li>
+    <li><a href="#chapter6">الفصل السادس</a></li>
+    <li><a href="#team">الفريق</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="max-width:100%; padding:0;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge"><span></span> بحث تخرج — مادة التصميم الرقمي</div>
+  <h1 class="hero-title">
+    عصر <em>التجربة الرقمية</em><br>تصميم وتطوير واجهات المستخدم
+  </h1>
+  <p class="hero-sub">بحث علمي يستعرض مبادئ تصميم UX/UI وأثرها في تحسين جودة المواقع الإلكترونية وجعلها أكثر سهولة وجاذبية</p>
+  <p class="hero-school">ثانوية حنين بأبها — إشراف: أ. مرعي علي آل مشهور</p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num" data-count="6">٠</div>
+      <div class="stat-label">فصول بحثية</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="7">٠</div>
+      <div class="stat-label">أعضاء الفريق</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="5">٠</div>
+      <div class="stat-label">أهداف رئيسية</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-count="4">٠</div>
+      <div class="stat-label">مراحل التصميم</div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    اكتشف المزيد
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="section-label">المقدمة</div>
+  <h2 class="section-title">مشكلة البحث وسؤاله الرئيسي</h2>
+  <div class="big-quote aos">
+    "كيف يمكن لمبادئ تصميم UX/UI تحسين جودة المواقع الإلكترونية وجعلها أكثر سهولة وجاذبية؟"
+  </div>
+  <div class="grid-2 aos">
+    <div class="card">
+      <div class="section-label" style="margin-bottom:12px;">مشكلة البحث</div>
+      <p style="color:var(--text-dim);line-height:1.8;font-size:0.92rem;">
+        تتمثل في تزايد تعقيد الأنظمة الرقمية مقابل حاجة المستخدم إلى واجهات سهلة الاستخدام، مما يؤدي إلى صعوبة التفاعل مع بعض المواقع الإلكترونية.
+      </p>
+      <div style="margin-top:18px; display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-dim);">
+          <span style="color:#ff6b6b;font-size:1rem;">⚠</span> فقدان المستخدمين من الموقع
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-dim);">
+          <span style="color:#ff6b6b;font-size:1rem;">⚠</span> انخفاض الثقة في الخدمة
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text-dim);">
+          <span style="color:#ff6b6b;font-size:1rem;">⚠</span> ضعف الاستفادة من الخدمات
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-label" style="margin-bottom:12px;">السياق العام</div>
+      <p style="color:var(--text-dim);line-height:1.8;font-size:0.92rem;">
+        تعيش المملكة العربية السعودية ثورة رقمية متسارعة ضمن رؤية 2030، حيث حققت تقدمًا ملحوظًا في تطوير الخدمات الإلكترونية كالمنصات الحكومية والتطبيقات الذكية.
+      </p>
+      <div style="margin-top:18px;padding:14px;background:rgba(0,229,200,0.06);border-radius:10px;border:1px solid rgba(0,229,200,0.15);">
+        <p style="font-size:0.82rem;color:var(--teal);font-weight:700;">رؤية 2030 🇸🇦</p>
+        <p style="font-size:0.82rem;color:var(--text-dim);margin-top:4px;">التحول الرقمي ركيزة أساسية تتطلب معايير علمية دقيقة تحكم التفاعل بين الإنسان والآلة.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px;">
+    <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:24px;" class="aos">أهمية البحث وأهدافه</h3>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'importance-sci')">الأهمية العلمية</button>
+      <button class="tab-btn" onclick="switchTab(this,'importance-prac')">الأهمية التطبيقية</button>
+      <button class="tab-btn" onclick="switchTab(this,'objectives')">أهداف البحث</button>
+    </div>
+    <div id="importance-sci" class="tab-panel active">
+      <div class="grid-3">
+        <div class="card">
+          <div class="principle-icon" style="margin-bottom:14px;">📚</div>
+          <div class="principle-title">إثراء المحتوى العربي</div>
+          <div class="principle-desc">إثراء المحتوى العربي في مجال تصميم واجهات وتجربة المستخدم — من التخصصات الحديثة والمتنامية.</div>
+        </div>
+        <div class="card">
+          <div class="principle-icon" style="margin-bottom:14px;">🔬</div>
+          <div class="principle-title">مرجع علمي متكامل</div>
+          <div class="principle-desc">تقديم مرجع علمي يوضح العلاقة بين جماليات التصميم والكفاءة الوظيفية للمواقع الإلكترونية.</div>
+        </div>
+        <div class="card">
+          <div class="principle-icon" style="margin-bottom:14px;">🤖</div>
+          <div class="principle-title">دور الذكاء الاصطناعي</div>
+          <div class="principle-desc">تسليط الضوء على دور الذكاء الاصطناعي والتقنيات الحديثة في تخصيص تجربة المستخدم.</div>
+        </div>
+      </div>
+    </div>
+    <div id="importance-prac" class="tab-panel">
+      <div class="grid-2">
+        <div class="card principle-card">
+          <div class="principle-icon">🌐</div>
+          <div>
+            <div class="principle-title">تحسين الوصول الرقمي</div>
+            <div class="principle-desc">مساعدة المطورين والمصممين على بناء مواقع تراعي الفروق الفردية واحتياجات المستخدمين المختلفة.</div>
+          </div>
+        </div>
+        <div class="card principle-card">
+          <div class="principle-icon">💰</div>
+          <div>
+            <div class="principle-title">دعم الاقتصاد الرقمي</div>
+            <div class="principle-desc">تساهم الواجهات السهلة في زيادة ثقة المستخدمين، مما يرفع من كفاءة الخدمات الإلكترونية.</div>
+          </div>
+        </div>
+        <div class="card principle-card">
+          <div class="principle-icon">🔗</div>
+          <div>
+            <div class="principle-title">تقليل الفجوة التقنية</div>
+            <div class="principle-desc">المساهمة في جعل التكنولوجيا معقدة من الداخل، ولكنها "بسيطة وودودة" في يد المستخدم النهائي.</div>
+          </div>
+        </div>
+        <div class="card principle-card">
+          <div class="principle-icon">⭐</div>
+          <div>
+            <div class="principle-title">رفع جودة المخرجات</div>
+            <div class="principle-desc">تقديم معايير واضحة يمكن من خلالها تقييم نجاح المواقع الإلكترونية ومدى جاذبيتها.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="objectives" class="tab-panel">
+      <div class="steps-container" style="max-width:700px;">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-content">
+            <div class="step-title">التأصيل العلمي للمفاهيم</div>
+            <div class="step-desc">التعرف الدقيق على مفهومَي واجهة المستخدم (UI) وتجربة المستخدم (UX) كركيزتين أساسيتين في بناء الأنظمة الرقمية.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-content">
+            <div class="step-title">التمييز الوظيفي</div>
+            <div class="step-desc">توضيح الفوارق الجوهرية والتكاملية بين UI وUX، وكيفية عملهما معاً لضمان نجاح المنتج الرقمي.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">03</div>
+          <div class="step-content">
+            <div class="step-title">تحليل معايير الجودة</div>
+            <div class="step-desc">دراسة وتحليل عناصر التصميم الجيد التي تضمن سهولة الاستخدام والجاذبية البصرية للمواقع الإلكترونية.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-content">
+            <div class="step-title">استكشاف الأدوات التقنية</div>
+            <div class="step-desc">التعرف على أدوات التصميم والنمذجة الحديثة مثل Figma و Adobe XD التي تساهم في رفع كفاءة عملية التصميم.</div>
+            <div class="step-tags">
+              <span class="tag">Figma</span>
+              <span class="tag">Adobe XD</span>
+            </div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">05</div>
+          <div class="step-content">
+            <div class="step-title">التطبيق العملي والنمذجة</div>
+            <div class="step-desc">تطبيق المفاهيم النظرية المدروسة بشكل عملي من خلال تصميم نموذج أولي لموقع إلكتروني يراعي أفضل الممارسات العالمية.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CHAPTER 1 -->
+<section id="chapter1">
+  <div class="section-label">الفصل الأول</div>
+  <h2 class="section-title">ماهية UI و UX</h2>
+  <p class="section-desc">في ظل التحول الرقمي المتسارع، لم يعد تصميم المواقع مجرد عملية تجميلية، بل أصبح علمًا هندسيًا يدمج السلوك البشري والتقنية.</p>
+
+  <div class="grid-2 aos">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(74,127,255,0.15);border:1px solid rgba(74,127,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🖥</div>
+        <div>
+          <div style="font-weight:900;font-size:1.1rem;">واجهة المستخدم <span style="color:var(--blue-accent);">(UI)</span></div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">المظهر والتفاعل</div>
+        </div>
+      </div>
+      <p style="color:var(--text-dim);font-size:0.88rem;line-height:1.8;margin-bottom:18px;">المكون المادي والبصري الذي يتفاعل معه الإنسان مباشرة. إذا كانت UX هي "الهيكل والوظيفة"، فإن UI هي "المظهر والتفاعل".</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="padding:10px 14px;background:rgba(74,127,255,0.06);border-radius:8px;border-right:2px solid var(--blue-accent);">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--blue-accent);">العناصر المرئية</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">الألوان، الخطوط (Typography)، والأيقونات</div>
+        </div>
+        <div style="padding:10px 14px;background:rgba(74,127,255,0.06);border-radius:8px;border-right:2px solid var(--blue-accent);">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--blue-accent);">عناصر الإدخال</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">الأزرار، الحقول النصية، القوائم المنسدلة</div>
+        </div>
+        <div style="padding:10px 14px;background:rgba(74,127,255,0.06);border-radius:8px;border-right:2px solid var(--blue-accent);">
+          <div style="font-size:0.8rem;font-weight:700;color:var(--blue-accent);">العناصر المعلوماتية</div>
+          <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;">أشرطة التقدم، الرسائل التنبيهية، صناديق الحوار</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(0,229,200,0.15);border:1px solid rgba(0,229,200,0.3);display:flex;align-items:center;justify-content:center;font-size:1.1rem;">🧠</div>
+        <div>
+          <div style="font-weight:900;font-size:1.1rem;">تجربة المستخدم <span style="color:var(--teal);">(UX)</span></div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">لماذا وكيف</div>
+        </div>
+      </div>
+      <p style="color:var(--text-dim);font-size:0.88rem;line-height:1.8;margin-bottom:18px;">إدراك الشخص واستجاباته الناتجة عن استخدام أو الاستخدام المتوقع لمنتج أو نظام أو خدمة.</p>
+      <div class="grid-2" style="gap:10px;">
+        <div style="padding:12px;background:rgba(0,229,200,0.06);border-radius:10px;border:1px solid rgba(0,229,200,0.12);text-align:center;" data-tooltip="هل يقدم المحتوى فائدة حقيقية؟">
+          <div style="font-size:1.4rem;margin-bottom:6px;">💎</div>
+          <div style="font-size:0.8rem;font-weight:700;color:var(--teal);">القيمة</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Value</div>
+        </div>
+        <div style="padding:12px;background:rgba(0,229,200,0.06);border-radius:10px;border:1px solid rgba(0,229,200,0.12);text-align:center;" data-tooltip="إنجاز المهام بأقل مجهود">
+          <div style="font-size:1.4rem;margin-bottom:6px;">✅</div>
+          <div style="font-size:0.8rem;font-weight:700;color:var(--teal);">سهولة الاستخدام</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Usability</div>
+        </div>
+        <div style="padding:12px;background:rgba(0,229,200,0.06);border-radius:10px;border:1px solid rgba(0,229,200,0.12);text-align:center;" data-tooltip="سهولة الملاحة داخل الموقع">
+          <div style="font-size:1.4rem;margin-bottom:6px;">🔍</div>
+          <div style="font-size:0.8rem;font-weight:700;color:var(--teal);">القدرة على العثور</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Findability</div>
+        </div>
+        <div style="padding:12px;background:rgba(0,229,200,0.06);border-radius:10px;border:1px solid rgba(0,229,200,0.12);text-align:center;" data-tooltip="بناء الثقة عبر التصميم المهني">
+          <div style="font-size:1.4rem;margin-bottom:6px;">🛡</div>
+          <div style="font-size:0.8rem;font-weight:700;color:var(--teal);">المصداقية</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);">Credibility</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison -->
+  <div style="margin-top:40px;" class="aos">
+    <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:20px;color:var(--text-dim);">التكامل بين UI و UX — المثال التوضيحي</h3>
+    <div class="card" style="background:rgba(0,229,200,0.04);border-color:rgba(0,229,200,0.2);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <span style="font-size:1.5rem;">🚌</span>
+        <p style="font-size:0.92rem;color:var(--text-dim);line-height:1.7;">
+          في تصميم <strong style="color:var(--white);">تطبيق لركوب الحافلات</strong> —<br>
+          <strong style="color:var(--teal);">UX:</strong> التأكد من أن المستخدم يمكنه حجز تذكرة في <strong style="color:var(--white);">3 خطوات فقط</strong>.<br>
+          <strong style="color:var(--blue-accent);">UI:</strong> اختيار لون الزر وحجم الخط ليكون واضحًا تحت أشعة الشمس.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UI Principles -->
+  <div style="margin-top:40px;" class="aos">
+    <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:20px;">مبادئ التصميم الجيد</h3>
+    <div class="grid-2" style="gap:16px;">
+      <div class="card principle-card">
+        <div class="principle-icon">⚙️</div>
+        <div>
+          <div class="principle-title">الاتساق (Consistency)</div>
+          <div class="principle-desc">استخدام نفس الأنماط التصميمية في جميع صفحات الموقع لتقليل منحنى التعلم.</div>
+        </div>
+      </div>
+      <div class="card principle-card">
+        <div class="principle-icon">💬</div>
+        <div>
+          <div class="principle-title">التغذية الراجعة (Feedback)</div>
+          <div class="principle-desc">إشعار المستخدم بنتيجة فعله (مثلاً: تغير لون الزر عند الضغط عليه).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CHAPTER 2 -->
+<section id="chapter2" style="background:var(--navy-mid);max-width:100%;padding:0;">
+  <div style="max-width:1200px;margin:0 auto;padding:90px 40px;">
+    <div class="section-label">الفصل الثاني</div>
+    <h2 class="section-title">الخطوات الإجرائية للتصميم</h2>
+    <p class="section-desc">عملية هندسية تسمى "التفكير التصميمي" (Design Thinking) تمر بخمس مراحل أساسية.</p>
+
+    <div class="steps-container aos">
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">مرحلة الاستكشاف والبحث (Discovery & Research)</div>
+          <div class="step-desc">تبدأ أولى خطوات التصميم خارج برامج التصميم تماماً، حيث يركز المصمم على فهم "من هو المستخدم؟" و"ماذا يريد؟"</div>
+          <div class="step-tags">
+            <span class="tag">تحليل المتطلبات</span>
+            <span class="tag">User Persona</span>
+            <span class="tag">تحليل المنافسين</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">بنية المعلومات (Information Architecture)</div>
+          <div class="step-desc">بعد فهم المستخدم، ننتقل لتنظيم "المعرفة" داخل الموقع عبر خريطة الموقع (Sitemap): رسم مخطط شجري يوضح جميع صفحات الموقع والعلاقة بينها.</div>
+          <div class="step-tags">
+            <span class="tag">Sitemap</span>
+            <span class="tag">تسميات واضحة</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">رحلة المستخدم (User Journey Mapping)</div>
+          <div class="step-desc">رسم المسار الذي يسلكه المستخدم منذ لحظة دخوله الموقع حتى إتمام المهمة مع تحديد نقاط الألم (Pain Points) ومعالجتها.</div>
+          <div class="step-tags">
+            <span class="tag">Pain Points</span>
+            <span class="tag">CTA</span>
+            <span class="tag">User Flow</span>
+          </div>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">النمذجة والاختبار الأولي (Prototyping & Testing)</div>
+          <div class="step-desc">قبل اعتماد التصميم النهائي، يتم إنشاء نموذج تفاعلي بسيط لاختبار المنطق البرمجي والتدفق مع مراقبة مستخدمين حقيقيين.</div>
+          <div class="step-tags">
+            <span class="tag">نماذج ورقية</span>
+            <span class="tag">Usability Testing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CHAPTER 3 -->
+<section id="chapter3">
+  <div class="section-label">الفصل الثالث</div>
+  <h2 class="section-title">المخططات الهيكلية (Wireframes)</h2>
+  <p class="section-desc">"المخطط الهندسي" للموقع قبل البدء بعمليات البناء والتشطيب — يركز على الوظيفة والتوزيع لا الجماليات.</p>
+
+  <div class="grid-2 aos">
+    <div>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:20px;color:var(--teal);">أنواع المخططات الهيكلية</h3>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="card" style="border-right:3px solid var(--teal);">
+          <div style="font-weight:800;margin-bottom:6px;">منخفضة الدقة (Low-Fidelity)</div>
+          <div style="color:var(--text-dim);font-size:0.85rem;line-height:1.7;">تُرسم يدوياً بالقلم والورق أو السبورات البيضاء، وتهدف للعصف الذهني السريع دون قيود تقنية.</div>
+        </div>
+        <div class="card" style="border-right:3px solid var(--blue-accent);">
+          <div style="font-weight:800;margin-bottom:6px;">عالية الدقة (High-Fidelity)</div>
+          <div style="color:var(--text-dim);font-size:0.85rem;line-height:1.7;">تُنفذ باستخدام برمجيات متخصصة (Figma أو Adobe XD)، وتحدد المسافات الدقيقة والتفاعلات الأساسية.</div>
+          <div class="step-tags" style="margin-top:10px;">
+            <span class="tag">Figma</span>
+            <span class="tag">Adobe XD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:20px;color:var(--teal);">عناصر المخطط الهيكلي الناجح</h3>
+      <div class="grid-2" style="gap:12px;">
+        <div style="padding:18px;background:var(--navy-card);border-radius:12px;border:1px solid var(--navy-border);text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">📋</div>
+          <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">العنوان (Header)</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">شعار، قائمة، بحث</div>
+        </div>
+        <div style="padding:18px;background:var(--navy-card);border-radius:12px;border:1px solid var(--navy-border);text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">📰</div>
+          <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">منطقة المحتوى</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">أعمدة وصفوف</div>
+        </div>
+        <div style="padding:18px;background:var(--navy-card);border-radius:12px;border:1px solid var(--navy-border);text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">🎯</div>
+          <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">نداء الإجراء (CTA)</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">أزرار استراتيجية</div>
+        </div>
+        <div style="padding:18px;background:var(--navy-card);border-radius:12px;border:1px solid var(--navy-border);text-align:center;">
+          <div style="font-size:1.5rem;margin-bottom:8px;">📎</div>
+          <div style="font-weight:800;font-size:0.88rem;margin-bottom:4px;">التذييل (Footer)</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">تواصل، روابط</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CHAPTER 4 -->
+<section id="chapter4" style="background:var(--navy-mid);max-width:100%;padding:0;">
+  <div style="max-width:1200px;margin:0 auto;padding:90px 40px;">
+    <div class="section-label">الفصل الرابع</div>
+    <h2 class="section-title">التصميم المرئي (Visual Design)</h2>
+    <p class="section-desc">المرحلة النهائية في رحلة بناء واجهة المستخدم — دمج الجماليات مع الوظيفة.</p>
+
+    <div class="grid-2 aos" style="margin-bottom:40px;">
+      <div class="card principle-card">
+        <div class="principle-icon">👁</div>
+        <div>
+          <div class="principle-title">التسلسل الهرمي البصري (Visual Hierarchy)</div>
+          <div class="principle-desc">ترتيب العناصر حسب الأهمية باستخدام الحجم واللون والتباين، بهدف توجيه عين المستخدم أولاً نحو أهم معلومة.</div>
+        </div>
+      </div>
+      <div class="card principle-card">
+        <div class="principle-icon">⚖️</div>
+        <div>
+          <div class="principle-title">التوازن والمحاذاة (Balance & Alignment)</div>
+          <div class="principle-desc">توزيع العناصر بشكل متزن في الصفحة لتجنب الشعور بالفوضى، واستخدام شبكة (Grid System) لضمان دقة الاصطفاف.</div>
+        </div>
+      </div>
+      <div class="card principle-card">
+        <div class="principle-icon">🤍</div>
+        <div>
+          <div class="principle-title">المساحات البيضاء (White Space)</div>
+          <div class="principle-desc">ترك مسافات كافية بين الفقرات والصور والأزرار لإعطاء "مساحة للتنفس" للمحتوى، مما يزيد من قابلية القراءة.</div>
+        </div>
+      </div>
+      <div class="card principle-card">
+        <div class="principle-icon">🔤</div>
+        <div>
+          <div class="principle-title">تنسيق الخطوط (Typography)</div>
+          <div class="principle-desc">استخدام نوعين من الخطوط بحد أقصى (واحد للعناوين وآخر للنصوص) مع ضبط تباعد الأسطر لضمان وضوح القراءة.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Theory -->
+    <h3 style="font-size:1.3rem;font-weight:800;margin-bottom:24px;" class="aos">نظرية الألوان وتأثيرها السيكولوجي</h3>
+    <div class="color-grid aos">
+      <div class="color-card">
+        <div class="color-swatch" style="background:linear-gradient(135deg,#1a73e8,#0d47a1);"></div>
+        <div class="color-info">
+          <div class="color-name" style="color:#4a9eff;">الأزرق</div>
+          <div class="color-meaning">الثقة، الاستقرار، الهدوء</div>
+          <div class="color-example">البنوك (PayPal)، LinkedIn، التقنية</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:linear-gradient(135deg,#00c853,#1b5e20);"></div>
+        <div class="color-info">
+          <div class="color-name" style="color:#00e676;">الأخضر</div>
+          <div class="color-meaning">النمو، الصحة، النجاح</div>
+          <div class="color-example">المواقع البيئية، رسائل "تم الإرسال"</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:linear-gradient(135deg,#e53935,#b71c1c);"></div>
+        <div class="color-info">
+          <div class="color-name" style="color:#ff5252;">الأحمر</div>
+          <div class="color-meaning">الإثارة، التحذير، العاطفة</div>
+          <div class="color-example">أزرار الحذف، عروض التخفيضات</div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:linear-gradient(135deg,#f9a825,#e65100);"></div>
+        <div class="color-info">
+          <div class="color-name" style="color:#ffca28;">الأصفر</div>
+          <div class="color-meaning">التفاؤل، الانتباه</div>
+          <div class="color-example">لفت النظر، الخدمات السريعة</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CHAPTER 5 -->
+<section id="chapter5">
+  <div class="section-label">الفصل الخامس</div>
+  <h2 class="section-title">قوانين تجربة المستخدم والأسس النفسية</h2>
+  <p class="section-desc">فلسفة التصميم المعاصر تطورت لتصبح "هندسة سلوكية" قائمة على التأصيل العلمي لإدراك المستخدم.</p>
+
+  <!-- Cognitive Load -->
+  <div class="card aos" style="margin-bottom:30px;background:rgba(0,229,200,0.03);border-color:rgba(0,229,200,0.2);">
+    <div style="display:flex;gap:20px;align-items:flex-start;">
+      <div class="principle-icon" style="min-width:56px;height:56px;font-size:1.6rem;">🧩</div>
+      <div>
+        <div style="font-size:1.2rem;font-weight:900;margin-bottom:10px;">مفهوم العبء الذهني (Cognitive Load)</div>
+        <p style="color:var(--text-dim);font-size:0.9rem;line-height:1.8;margin-bottom:16px;">مقدار المجهود العقلي والمعالجة الإدراكية التي يبذلها المستخدم لفهم الواجهة وإنجاز المهام. دور المصمم هو "الوسيط التقني" الذي يبسّط العمليات المعقدة.</p>
+        <div class="grid-3" style="gap:12px;">
+          <div style="padding:12px;background:var(--navy-card);border-radius:10px;border:1px solid var(--navy-border);">
+            <div style="color:var(--teal);font-weight:800;font-size:0.85rem;margin-bottom:4px;">⚡ زيادة الكفاءة</div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">تحقيق الأهداف بأقل أخطاء وأقصى سرعة</div>
+          </div>
+          <div style="padding:12px;background:var(--navy-card);border-radius:10px;border:1px solid var(--navy-border);">
+            <div style="color:var(--teal);font-weight:800;font-size:0.85rem;margin-bottom:4px;">😊 تعزيز الرضا</div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">استجابة عاطفية إيجابية تجاه النظام</div>
+          </div>
+          <div style="padding:12px;background:var(--navy-card);border-radius:10px;border:1px solid var(--navy-border);">
+            <div style="color:var(--teal);font-weight:800;font-size:0.85rem;margin-bottom:4px;">🛡 المصداقية</div>
+            <div style="color:var(--text-muted);font-size:0.78rem;">تعزيز الثقة والشفافية في الخدمة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Absher Case Study -->
+  <div class="aos">
+    <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:20px;">دراسة حالة: منصة "أبشر" 🇸🇦</h3>
+    <div class="card" style="background:linear-gradient(135deg,rgba(0,229,200,0.04),rgba(74,127,255,0.04));border-color:rgba(0,229,200,0.2);">
+      <p style="color:var(--text-dim);font-size:0.9rem;line-height:1.8;margin-bottom:20px;">تعد منصة "أبشر" النموذج الرائد في المملكة لتطبيق معايير التصميم المتكامل، مع تقسيم الخدمات بذكاء إدراكي لضمان سهولة الوصول.</p>
+      <div class="grid-3" style="gap:14px;">
+        <div style="padding:16px;background:var(--navy-deep);border-radius:12px;border:1px solid var(--navy-border);">
+          <div style="font-weight:900;color:var(--teal);margin-bottom:8px;">👤 أبشر أفراد</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">تجديد الهوية الوطنية، إصدار جواز السفر، إدارة رخص القيادة</div>
+        </div>
+        <div style="padding:16px;background:var(--navy-deep);border-radius:12px;border:1px solid var(--navy-border);">
+          <div style="font-weight:900;color:var(--blue-accent);margin-bottom:8px;">🏢 أبشر أعمال</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">تجديد الإقامات، السجل التجاري، حماية الأجور</div>
+        </div>
+        <div style="padding:16px;background:var(--navy-deep);border-radius:12px;border:1px solid var(--navy-border);">
+          <div style="font-weight:900;color:var(--text-dim);margin-bottom:8px;">🏛 أبشر حكومة</div>
+          <div style="font-size:0.78rem;color:var(--text-muted);">ربط الأنظمة الحكومية ورفع الكفاءة الإدارية</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CHAPTER 6 -->
+<section id="chapter6" style="background:var(--navy-mid);max-width:100%;padding:0;">
+  <div style="max-width:1200px;margin:0 auto;padding:90px 40px;">
+    <div class="section-label">الفصل السادس</div>
+    <h2 class="section-title">مستقبل التصميم الرقمي والذكاء الاصطناعي</h2>
+    <p class="section-desc">النقلة النوعية التي يفرضها الذكاء الاصطناعي تحوّل التصميم من قوالب إجرائية ثابتة إلى بيئات تفاعلية ذكية.</p>
+
+    <div class="ai-grid aos">
+      <div class="ai-card">
+        <div class="ai-num">01</div>
+        <div class="ai-title">الذكاء الاصطناعي والتخصيص</div>
+        <div class="ai-desc">تحويل الواجهات الرقمية من نماذج نمطية إلى واجهات ديناميكية تتشكل لحظياً بناءً على "النمذجة السلوكية" لكل مستخدم عبر خوارزميات التعلم الآلي.</div>
+        <div class="step-tags" style="margin-top:14px;">
+          <span class="tag">Behavioral Modeling</span>
+          <span class="tag">Clickstream Data</span>
+        </div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">02</div>
+        <div class="ai-title">تبسيط التكنولوجيا وتقليل الفجوة</div>
+        <div class="ai-desc">جعل التكنولوجيا "بسيطة وودودة" في يد المستخدم النهائي بغض النظر عن خلفيته التقنية، مما يعزز قيم سهولة الاستخدام والوصول.</div>
+        <div class="step-tags" style="margin-top:14px;">
+          <span class="tag">Usability</span>
+          <span class="tag">Accessibility</span>
+        </div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">03</div>
+        <div class="ai-title">الذكاء الاصطناعي والواقع المعزز (AR)</div>
+        <div class="ai-desc">اندماج الذكاء الاصطناعي مع الواقع المعزز يمثل المحرك الأساسي لمستقبل التفاعل البشري الرقمي، متجاوزاً حدود الشاشات التقليدية عبر الواجهات الصوتية.</div>
+        <div class="step-tags" style="margin-top:14px;">
+          <span class="tag">NLP</span>
+          <span class="tag">AR</span>
+          <span class="tag">Immersive</span>
+        </div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-num">04</div>
+        <div class="ai-title">التحول الرقمي ورؤية 2030</div>
+        <div class="ai-desc">تجسد منصة "أبشر" النموذج التطبيقي الأرقى لتحقيق مستهدفات رؤية المملكة 2030 في التحول الرقمي الشامل عبر أربع ركائز استراتيجية.</div>
+        <div class="step-tags" style="margin-top:14px;">
+          <span class="tag">رؤية 2030</span>
+          <span class="tag">أبشر</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI vs Traditional -->
+    <div style="margin-top:40px;" class="aos">
+      <h3 style="font-size:1.2rem;font-weight:800;margin-bottom:20px;">مقارنة: المهام التقليدية مقابل الذكاء الاصطناعي</h3>
+      <div style="overflow-x:auto;border-radius:14px;border:1px solid var(--navy-border);">
+        <table class="compare-table" style="width:100%;border-spacing:0;">
+          <thead>
+            <tr style="background:var(--navy-deep);">
+              <th style="padding:16px 24px;text-align:right;border-bottom:1px solid var(--navy-border);">مرحلة العمل</th>
+              <th style="padding:16px 24px;text-align:right;border-bottom:1px solid var(--navy-border);color:var(--text-dim);">المهام التقليدية</th>
+              <th style="padding:16px 24px;text-align:right;border-bottom:1px solid var(--navy-border);color:var(--teal);">المهام المعززة بالذكاء الاصطناعي</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--navy-border);">
+              <td style="padding:16px 24px;font-weight:800;color:var(--white);background:var(--navy-card);">الاستكشاف والبحث</td>
+              <td style="padding:16px 24px;color:var(--text-dim);background:var(--navy-card);">جمع البيانات يدوياً وبناء شخصيات بناءً على مقابلات محدودة</td>
+              <td style="padding:16px 24px;color:var(--teal);background:var(--navy-card);">تحليل ضخم لبيانات المستخدمين الحقيقية وبناء شخصيات تنبؤية دقيقة</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--navy-border);">
+              <td style="padding:16px 24px;font-weight:800;color:var(--white);background:var(--navy-mid);">النمذجة (Prototyping)</td>
+              <td style="padding:16px 24px;color:var(--text-dim);background:var(--navy-mid);">رسم المخططات الهيكلية يدوياً بعنصر بعد عنصر</td>
+              <td style="padding:16px 24px;color:var(--teal);background:var(--navy-mid);">التوليد الفوري للنماذج الأولية وتخطيطات الصفحة بناءً على وصف المشكلة</td>
+            </tr>
+            <tr>
+              <td style="padding:16px 24px;font-weight:800;color:var(--white);background:var(--navy-card);">الاختبار (Testing)</td>
+              <td style="padding:16px 24px;color:var(--text-dim);background:var(--navy-card);">إجراء اختبارات قابلية الاستخدام يدوياً وتسجيل الملاحظات</td>
+              <td style="padding:16px 24px;color:var(--teal);background:var(--navy-card);">اختبارات حرارية تلقائية (Heatmaps) وتدقيق آلي لسهولة الوصول</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<div id="conclusion">
+  <div>
+    <div class="section-label">التوصيات الختامية</div>
+    <h2 class="section-title">خلاصة البحث والتوصيات</h2>
+    <p class="section-desc">مبادئ تصميم UX/UI المتطورة والمدمجة بالذكاء الاصطناعي هي الضمانة لرفع جودة المواقع الإلكترونية وجعلها أكثر إنسانية وجاذبية.</p>
+    <div class="recs-grid aos">
+      <div class="rec-card">
+        <div class="rec-arrow">→</div>
+        <div>
+          <div class="rec-title">تبني استراتيجيات التخصيص الذكي</div>
+          <div class="rec-text">توجه المطورين في البيئة الرقمية السعودية لبناء أنظمة تتكيف برمجياً مع الفروق الفردية للمستخدمين لتقليل العبء الذهني.</div>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-arrow">→</div>
+        <div>
+          <div class="rec-title">استلهام النماذج الوطنية الناجحة</div>
+          <div class="rec-text">الالتزام بالمعايير التي أرستها منصة "أبشر" في الموازنة بين "الأمان الفائق" و"سلاسة التجربة" لتعزيز الاقتصاد الرقمي.</div>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-arrow">→</div>
+        <div>
+          <div class="rec-title">تطوير القدرات البشرية</div>
+          <div class="rec-text">حث المصممين على إتقان تقنيات التصميم التوليدي والاختبار الآلي لرفع جودة المخرجات الرقمية السعودية لتتنافس عالمياً.</div>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-arrow">→</div>
+        <div>
+          <div class="rec-title">الالتزام بأخلاقيات الذكاء الاصطناعي</div>
+          <div class="rec-text">مراعاة معايير الخصوصية عند تصميم تجارب المستخدم القائمة على البيانات، لضمان توازن مستدام بين التخصيص وحقوق المستخدم الرقمية.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div id="team">
+  <div>
+    <div class="section-label">فريق البحث</div>
+    <h2 class="section-title">الفريق والإشراف</h2>
+    <div class="team-grid aos" style="margin-bottom:40px;">
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">محمد خضر أحمد عبدالمجيد</div></div>
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">يمان يوسف الحماده</div></div>
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">عبدالعزيز جهاد محمود محسن</div></div>
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">معاذ محمد حسين خبراني</div></div>
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">محمد يحيى محمد خبراني</div></div>
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">مطلق محمد حسن أبو حاوي</div></div>
+      <div class="team-card"><div class="team-avatar">👨‍💻</div><div class="team-name">مشاري عثمان</div></div>
+    </div>
+    <h3 style="font-size:1rem;font-weight:700;color:var(--text-muted);margin-bottom:16px;">فريق الإشراف</h3>
+    <div class="supervisor-grid">
+      <div class="supervisor-badge"><span class="supervisor-role">مشرف البحث</span>أ. مرعي علي آل مشهور</div>
+      <div class="supervisor-badge"><span class="supervisor-role">منسق المشاريع</span>أ. أحمد يحيى آل حنش</div>
+      <div class="supervisor-badge"><span class="supervisor-role">مدير المدرسة</span>د. عبدالعزيز بن إبراهيم آل حمود</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>بحث تخرج — مادة التصميم الرقمي | <span>ثانوية حنين بأبها</span> | جميع الحقوق محفوظة لفريق البحث</p>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+
+    // Active nav
+    document.querySelectorAll('section[id], div[id]').forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 80 && rect.bottom >= 80) {
+        document.querySelectorAll('.nav-links a').forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + sec.id);
+        });
+      }
+    });
+  });
+
+  // AOS
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.aos').forEach(el => observer.observe(el));
+
+  // Count up
+  const countUp = (el, target) => {
+    let current = 0;
+    const timer = setInterval(() => {
+      current++;
+      el.textContent = current;
+      if(current >= target) clearInterval(timer);
+    }, 80);
+  };
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting) {
+        const target = parseInt(e.target.dataset.count);
+        countUp(e.target, target);
+        statsObserver.unobserve(e.target);
+      }
+    });
+  });
+  document.querySelectorAll('[data-count]').forEach(el => statsObserver.observe(el));
+
+  // Tabs
+  function switchTab(btn, panelId) {
+    btn.closest('.tabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const section = btn.closest('section') || btn.closest('div');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(panelId).classList.add('active');
+  }
+</script>
+</body>
+</html>
